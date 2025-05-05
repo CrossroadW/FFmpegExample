@@ -1,0 +1,44 @@
+[
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/videoplayer_autogen/mocs_compilation.cpp.o -c /tmp/FFmpegExample/build/videoplayer_autogen/mocs_compilation.cpp",
+  "file": "/tmp/FFmpegExample/build/videoplayer_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/videoplayer.dir/videoplayer_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/ChooseUrlDialog.cpp.o -c /tmp/FFmpegExample/ChooseUrlDialog.cpp",
+  "file": "/tmp/FFmpegExample/ChooseUrlDialog.cpp",
+  "output": "CMakeFiles/videoplayer.dir/ChooseUrlDialog.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/FFmpegExamples.cpp.o -c /tmp/FFmpegExample/FFmpegExamples.cpp",
+  "file": "/tmp/FFmpegExample/FFmpegExamples.cpp",
+  "output": "CMakeFiles/videoplayer.dir/FFmpegExamples.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/FileDecode.cpp.o -c /tmp/FFmpegExample/FileDecode.cpp",
+  "file": "/tmp/FFmpegExample/FileDecode.cpp",
+  "output": "CMakeFiles/videoplayer.dir/FileDecode.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/ImageYuvRender.cpp.o -c /tmp/FFmpegExample/ImageYuvRender.cpp",
+  "file": "/tmp/FFmpegExample/ImageYuvRender.cpp",
+  "output": "CMakeFiles/videoplayer.dir/ImageYuvRender.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/MyQtMainWindow.cpp.o -c /tmp/FFmpegExample/MyQtMainWindow.cpp",
+  "file": "/tmp/FFmpegExample/MyQtMainWindow.cpp",
+  "output": "CMakeFiles/videoplayer.dir/MyQtMainWindow.cpp.o"
+},
+{
+  "directory": "/tmp/FFmpegExample/build",
+  "command": "/usr/lib64/ccache/c++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_NETWORK_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -I/tmp/FFmpegExample/build/videoplayer_autogen/include -I/usr/include/ffmpeg -I/tmp/FFmpegExample/. -I/tmp/FFmpegExample/install/include -isystem /usr/include/qt5 -isystem /usr/include/qt5/QtCore -isystem /usr/lib64/qt5/mkspecs/linux-g++ -isystem /usr/include/qt5/QtGui -isystem /usr/include/qt5/QtWidgets -isystem /usr/include/qt5/QtNetwork -isystem /usr/include/qt5/QtMultimedia -std=c++20 -fPIC -o CMakeFiles/videoplayer.dir/SwrResample.cpp.o -c /tmp/FFmpegExample/SwrResample.cpp",
+  "file": "/tmp/FFmpegExample/SwrResample.cpp",
+  "output": "CMakeFiles/videoplayer.dir/SwrResample.cpp.o"
+}
+]

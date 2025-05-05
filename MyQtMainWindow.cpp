@@ -8,7 +8,11 @@
 #include <thread>
 #include <iostream>
 #include <string>
-#include "Windows.h"
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 #include "ChooseUrlDialog.h"
 
 extern "C" {

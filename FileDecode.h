@@ -17,7 +17,10 @@ extern "C" {
 #include <libswresample/swresample.h>
 #include <libavutil/avutil.h>
 }
-
+#if LIBAVFORMAT_VERSION_MAJOR >= 57
+// FFmpeg >= 3.0 已移除 av_free_packet，定义为空宏
+#define av_free_packet(x) ((void)0)
+#endif
 //#define WRITE_DECODED_PCM_FILE
 //#define WRITE_DECODED_YUV_FILE
 

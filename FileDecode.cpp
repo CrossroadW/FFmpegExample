@@ -1,6 +1,20 @@
 #include "FileDecode.h"
 #include "MyQtMainWindow.h"
+
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+// 统一的跨平台 msleep 接口，单位为毫秒
+inline void msleep(unsigned int ms) {
+#ifdef _WIN32
+    msleep(ms); // Windows 单位为毫秒
+#else
+    usleep(ms * 1000); // Linux/macOS 单位为微秒
+}
+#endif
 FileDecode::~FileDecode()
 {
 
@@ -69,53 +83,90 @@ int FileDecode::AVOpenFile(std::string filename)
 
     return 0;
 }
-
 int FileDecode::OpenAudioDecode()
 {
+#if LIBAVFORMAT_VERSION_MAJOR < 58
     audioCodecCtx = formatCtx->streams[audioStream]->codec;
-
     AVCodec* codec = avcodec_find_decoder(audioCodecCtx->codec_id);
-    if (codec == NULL) {
+#else
+    AVCodecParameters* codecpar = formatCtx->streams[audioStream]->codecpar;
+    const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
+    if (!codec) {
+        std::cout << "cannot find audio codec id: " << codecpar->codec_id << std::endl;
+        return -1;
+    }
+
+    audioCodecCtx = avcodec_alloc_context3(codec);
+    if (!audioCodecCtx) {
+        std::cout << "failed to alloc audio codec context" << std::endl;
+        return -1;
+    }
+
+    if (avcodec_parameters_to_context(audioCodecCtx, codecpar) < 0) {
+        std::cout << "failed to copy codec parameters to context" << std::endl;
+        return -1;
+    }
+#endif
+
+#if LIBAVFORMAT_VERSION_MAJOR < 58
+    if (!codec) {
         std::cout << "cannot find audio codec id: " << audioCodecCtx->codec_id << std::endl;
         return -1;
     }
+#endif
 
-    // Open codec
     AVDictionary* dict = NULL;
     int codecOpenResult = avcodec_open2(audioCodecCtx, codec, &dict);
     if (codecOpenResult < 0) {
-        std::cout << "open audio decode faild" << std::endl;
+        std::cout << "open audio decode failed" << std::endl;
         return -1;
     }
+
     AVRational pts_base = formatCtx->streams[audioStream]->time_base;
     file_len_ms = formatCtx->streams[audioStream]->duration * av_q2d(pts_base) * 1000;
 
     return 0;
 }
 
+
 int FileDecode::OpenVideoDecode() {
-    videoCodecCtx = formatCtx->streams[videoStream]->codec;
+    #if LIBAVFORMAT_VERSION_MAJOR < 58
+        videoCodecCtx = formatCtx->streams[videoStream]->codec;
+    #else
+        AVCodecParameters *codecpar = formatCtx->streams[videoStream]->codecpar;
+        AVCodec const *codec = avcodec_find_decoder(codecpar->codec_id);
+        if (!codec) {
+            std::cout << "cannot find video codec id: " << codecpar->codec_id << std::endl;
+            return -1;
+        }
+    
+        videoCodecCtx = avcodec_alloc_context3(codec);
+        if (!videoCodecCtx) {
+            std::cout << "failed to alloc video codec context" << std::endl;
+            return -1;
+        }
+    
+        if (avcodec_parameters_to_context(videoCodecCtx, codecpar) < 0) {
+            std::cout << "failed to copy codec parameters to context" << std::endl;
+            return -1;
+        }
+    #endif
+    
 
-    AVCodec* codec = avcodec_find_decoder(videoCodecCtx->codec_id);
-    if (codec == NULL) {
-        std::cout << "cannot find video codec id: " << videoCodecCtx->codec_id << std::endl;
-        return -1;
+    
+        AVDictionary* dict = NULL;
+        int codecOpenResult = avcodec_open2(videoCodecCtx, codec, &dict);
+        if (codecOpenResult < 0) {
+            std::cout << "open video decode failed" << std::endl;
+            return -1;
+        }
+    
+        int codec_width = videoCodecCtx->coded_width;
+        qtWin->initData(videoCodecCtx->width, videoCodecCtx->height, codec_width);
+    
+        return 0;
     }
-
-    // Open codec
-    AVDictionary* dict = NULL;
-    int codecOpenResult = avcodec_open2(videoCodecCtx, codec, &dict);
-    if (codecOpenResult < 0) {
-        std::cout << "open video decode faild" << std::endl;
-        return -1;
-    }
-
-    int codec_width = videoCodecCtx->coded_width;
-    qtWin->initData(videoCodecCtx->width, videoCodecCtx->height, codec_width);
-
-    return 0;
-}
-
+    
 int FileDecode::StartRead(std::string fildName)
 {
     read_frame_flag = true;
@@ -153,7 +204,7 @@ int FileDecode::InnerStartRead()
         std::unique_lock<std::mutex> lock(read_mutex_);
         if (!pause_read_flag)
         {
-            Sleep(2);
+            msleep(2);
             lock.unlock();
             continue;
         }
@@ -225,7 +276,7 @@ int FileDecode::InnerStartRead()
             int buffer_time = audio_packet_buffer->size() * pkt_dur;
             //if (buffer_time > 200)
             //{
-            //    Sleep(180);
+            //    msleep(180);
             //}
         }
         else if(avpkt->stream_index == videoStream)
@@ -258,15 +309,15 @@ int FileDecode::VideoDecodeFun()
 
         if (pauseFlag)  //停止了渲染，由于jitter的push阻塞机制，自动会阻塞读包线程
         {
-            Sleep(2);
+            msleep(2);
             continue;
         }
 
         int64_t sys_ms = GetSysClockMs();
         if (video_stream_time > GetSysClockMs())
         {
-            //qDebug() << "VideoSleep" << video_stream_time<<":"<< sys_ms;
-            Sleep(2);
+            //qDebug() << "Videomsleep" << video_stream_time<<":"<< sys_ms;
+            msleep(2);
             continue;
         }
         qDebug() << "video pop before: ";
@@ -279,7 +330,7 @@ int FileDecode::VideoDecodeFun()
                 break;
             }
 
-            Sleep(2);
+            msleep(2);
           
             continue;
         }
@@ -313,15 +364,15 @@ int FileDecode::AudioDecodeFun()
 
         if (pauseFlag)
         {
-            Sleep(2);
+            msleep(2);
             continue;
         }
         int64_t sys_ms = GetSysClockMs();
 		if (audio_stream_time > GetSysClockMs()) 
 		{
 
-            //qDebug() << "AudioSleep" << audio_stream_time << ":" << sys_ms;
-            Sleep(2);
+            //qDebug() << "Audiomsleep" << audio_stream_time << ":" << sys_ms;
+            msleep(2);
             continue;
 		}
         
@@ -333,8 +384,8 @@ int FileDecode::AudioDecodeFun()
 				//如果已经读到文件尾部了，再pop不出数据，说明播放结束了
 				break;
 			}
-            Sleep(2);
-           // qDebug() << "AudioSleep pop null";
+            msleep(2);
+           // qDebug() << "Audiomsleep pop null";
             continue;
         }
         
@@ -557,7 +608,38 @@ int FileDecode::DecodeVideo(AVPacket* originalPacket)
 
 #endif //  WRITE_DECODED_PCM_FILE
 
-    qtWin->updateYuv(frame->data[0], frame->data[1], frame->data[2]);
+uint8_t *y_plane = frame->data[0];
+uint8_t *u_plane = frame->data[1];
+uint8_t *v_plane = frame->data[2];
+
+    if (frame->linesize[0] != frame->width ||
+        frame->linesize[1] != frame->width / 2) {
+        int y_size = frame->width * frame->height;
+        int uv_size = y_size / 4;
+        uint8_t *aligned_y = new uint8_t[y_size];
+        uint8_t *aligned_u = new uint8_t[uv_size];
+        uint8_t *aligned_v = new uint8_t[uv_size];
+
+        for (int i = 0; i < frame->height; ++i) {
+            memcpy(aligned_y + i * frame->width,
+                frame->data[0] + i * frame->linesize[0], frame->width);
+        }
+
+        for (int i = 0; i < frame->height / 2; ++i) {
+            memcpy(aligned_u + i * frame->width / 2,
+                frame->data[1] + i * frame->linesize[1], frame->width / 2);
+            memcpy(aligned_v + i * frame->width / 2,
+                frame->data[2] + i * frame->linesize[2], frame->width / 2);
+        }
+
+        qtWin->updateYuv(aligned_y, aligned_u, aligned_v);
+
+        delete[] aligned_y;
+        delete[] aligned_v;
+        delete[] aligned_u;
+    } else {
+        qtWin->updateYuv(y_plane, u_plane, v_plane);
+    }
 
     av_frame_free(&frame);
 
@@ -583,8 +665,9 @@ void FileDecode::RunFFmpeg(std::string url)
 {
    
     // 注册所有的编解码器、格式和协议
+    #if LIBAVFORMAT_VERSION_MAJOR < 58
     av_register_all();
-
+    #endif
 
     int ret = AVOpenFile(url);
     if (ret != 0)
