@@ -1,5 +1,0 @@
-/tmp/FFmpegExample/build/CMakeFiles/videoplayer.dir
-/tmp/FFmpegExample/build/CMakeFiles/edit_cache.dir
-/tmp/FFmpegExample/build/CMakeFiles/rebuild_cache.dir
-/tmp/FFmpegExample/build/CMakeFiles/videoplayer_autogen_timestamp_deps.dir
-/tmp/FFmpegExample/build/CMakeFiles/videoplayer_autogen.dir
